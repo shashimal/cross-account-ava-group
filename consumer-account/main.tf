@@ -2,7 +2,8 @@
 # Accept the resource share invitation from the owner/central account
 ################################################################################
 resource "aws_ram_resource_share_accepter" "receiver_accept" {
-  share_arn = "arn:aws:ram:us-east-1:549560551218:resource-share/33eea0f3-fe5c-4794-bcf3-e916a9024895" #arn of AVA group resource shared created in owner account
+  #arn of Verified Access group resource share created in owner account
+  share_arn = "arn:aws:ram:us-east-1:xxxxxx:resource-share/33eea0f3-fe5c-4794-bcf3-e916a9024895"
 }
 
 ################################################################################
