@@ -1,19 +1,19 @@
-####################################
-##### Setup central AVA trust provider #####
-####################################
+################################################################################
+# Setup central Verified Access trust provider
+################################################################################
 resource "aws_verifiedaccess_trust_provider" "this" {
   description              = "Central IAM trust provider"
   policy_reference_name    = "IAM"
   trust_provider_type      = "user"
   user_trust_provider_type = "iam-identity-center"
   tags = {
-    Name = "Iam Ddentity Center"
+    Name = "Iam Identity Center"
   }
 }
 
-####################################
-##### Setup central AVA instance #####
-####################################
+################################################################################
+# Setup central Verified Access instance
+################################################################################
 resource "aws_verifiedaccess_instance" "this" {
   description = "Central AVA instance"
   tags = {
@@ -21,17 +21,17 @@ resource "aws_verifiedaccess_instance" "this" {
   }
 }
 
-######################################################
-##### Attach trust provider to AVA instance ##########
-######################################################
+################################################################################
+# Attach trust provider to Verified Access instance
+################################################################################
 resource "aws_verifiedaccess_instance_trust_provider_attachment" "this" {
   verifiedaccess_instance_id       = aws_verifiedaccess_instance.this.id
   verifiedaccess_trust_provider_id = aws_verifiedaccess_trust_provider.this.id
 }
 
-###############################################
-##### Setup shared AVA group #####
-###############################################
+################################################################################
+# Setup shared Verified Access group
+################################################################################
 resource "aws_verifiedaccess_group" "this" {
   verifiedaccess_instance_id = aws_verifiedaccess_instance.this.id
   policy_document            = <<-EOT
@@ -49,9 +49,9 @@ resource "aws_verifiedaccess_group" "this" {
   ]
 }
 
-#########################################################
-##### Share AVA Group with another AWS account using AWS RAM #####
-#########################################################
+################################################################################
+# Share Verified Access group with another AWS account using AWS RAM
+################################################################################
 resource "aws_ram_resource_share" "this" {
   name                     = "shared-verified-access-group"
   allow_external_principals = true
@@ -66,6 +66,6 @@ resource "aws_ram_resource_association" "this" {
 }
 
 resource "aws_ram_principal_association" "this" {
-  principal              = "793209430381"
+  principal              = "0000000" # AWS account id
   resource_share_arn     = aws_ram_resource_share.this.arn
 }
